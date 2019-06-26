@@ -16,6 +16,7 @@ class QueryBudgetTest extends TestCase
      * @var QueryBudget
      */
     private $sut;
+
     /**
      * @var mock
      */
@@ -24,7 +25,8 @@ class QueryBudgetTest extends TestCase
     public function setUp()
     {
         $this->stubFindAllBudgets = m::mock(FindAllBudgetsInterface::class);
-        $this->sut = new QueryBudget($this->stubFindAllBudgets);
+        $findAllBudgets = $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn();
+        $this->sut = new QueryBudget($findAllBudgets);
         parent::setUp();
     }
 
@@ -61,8 +63,7 @@ class QueryBudgetTest extends TestCase
         $budget = array(
             new Budget("2019/01", 31)
         );
-        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);;
     }
 
     public function testHaveNoBudgets()
@@ -80,6 +81,6 @@ class QueryBudgetTest extends TestCase
             new Budget("2019/01", 31)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(0, $this->sut->query('2020/01/01', '2019/01/31'));
+        $this->assertEquals(0, $this->sut->query('2020/01/01', '2019/01/31'));®
     }
 }
