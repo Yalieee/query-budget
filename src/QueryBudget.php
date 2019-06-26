@@ -8,6 +8,8 @@ use DateTime;
 
 class QueryBudget
 {
+    private $findAllBudgets = null;
+
     public function __construct(FindAllBudgetsInterface $findAllBudgets)
     {
         $this->findAllBudgets = $findAllBudgets;
@@ -20,17 +22,12 @@ class QueryBudget
         $eTime = new DateTime($endDate);
 
         $sTime = $sTime->format("Y-m");
-        //$sMonth = $sTime->format("m");
-        //$sDay = $sTime->format("d");
-
         $eTime = $eTime->format("Y-m");
-        //$eMonth = $eTime->format("m");
-        //$eDay = $eTime->format("d");
+
         $money = 0;
         foreach ($budgets as $budget) {
-            $budgetDate = new DateTime($budget->date);
+            $budgetDate = DateTime::createFromFormat('Y/m', $budget->date);
             $budgetTime = $budgetDate->format("Y-m");
-            //$budgetMonth = $budgetDate->format("m");
 
             if ($sTime <= $budgetTime && $eTime >= $budgetTime) {
                 $money += $budget->value;
