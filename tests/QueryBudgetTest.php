@@ -31,9 +31,7 @@ class QueryBudgetTest extends TestCase
     public function testQueryOneMouth()
     {
         $budget = array(
-            new Budget("2019/01", 100),
-            new Budget("2019/02",200),
-            new Budget("2019/03",300)
+            new Budget("2019/01", 31)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
         $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
@@ -41,26 +39,47 @@ class QueryBudgetTest extends TestCase
 
     public function testOneMonth()
     {
-        $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
+        $budget = array(
+            new Budget("2019/01", 31),
+            new Budget("2019/02",28)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(59, $this->sut->query('2019/01/01', '2019/02/28'));
     }
 
     public function testOneDay()
     {
-        $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
+        $budget = array(
+            new Budget("2019/01", 31)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(1, $this->sut->query('2019/01/01', '2019/01/01'));
     }
 
     public function testCrossMonth()
     {
+        $budget = array(
+            new Budget("2019/01", 31)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
         $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
     }
 
     public function testHaveNoBudgets()
     {
-        $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
+        $budget = array(
+            new Budget("2019/01", 31)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(0, $this->sut->query('2020/01/01', '2020/01/31'));
     }
 
     public function testStartDateGreaterThanEndDate()
     {
-        $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
+        $budget = array(
+            new Budget("2019/01", 31)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(0, $this->sut->query('2020/01/01', '2019/01/31'));
     }
 }
