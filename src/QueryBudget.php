@@ -30,9 +30,9 @@ class QueryBudget
             $budgetTime = $budgetDate->format("Y-m");
             $budgetMonth = $budgetDate->format("m");
             $budgetDays = cal_days_in_month(CAL_GREGORIAN,
-                $budgetDate->formate("m"),
-                $budgetDate->formate("Y"));
-            
+                $budgetDate->format("m"),
+                $budgetDate->format("Y"));
+
             if ($sTime <= $budgetTime && $eTime >= $budgetTime) {
                 $money += $budget->value;
             }
