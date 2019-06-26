@@ -32,8 +32,6 @@ class QueryBudget
             if ($sTime <= $budgetTime && $eTime >= $budgetTime) {
                 $money += $budget->value;
             }
-
-
         }
 
 
