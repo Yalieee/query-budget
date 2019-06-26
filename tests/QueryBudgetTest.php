@@ -17,7 +17,7 @@ class QueryBudgetTest extends TestCase
 
     public function testQueryOneMouth()
     {
-        $this->assertEquals(31, $this->sut->query('2019-01-01', '2019-01-31'));
+        $this->assertEquals(100, $this->sut->query('2019-01-01', '2019-01-31'));
     }
 
     public function testOneMonth()
