@@ -28,7 +28,11 @@ class QueryBudget
         foreach ($budgets as $budget) {
             $budgetDate = DateTime::createFromFormat('Y/m', $budget->date);
             $budgetTime = $budgetDate->format("Y-m");
-
+            $budgetMonth = $budgetDate->format("m");
+            $budgetDays = cal_days_in_month(CAL_GREGORIAN,
+                $budgetDate->formate("m"),
+                $budgetDate->formate("Y"));
+            
             if ($sTime <= $budgetTime && $eTime >= $budgetTime) {
                 $money += $budget->value;
             }
