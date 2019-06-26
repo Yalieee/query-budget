@@ -19,24 +19,28 @@ class QueryBudget
         $sTime = new DateTime($startDate);
         $eTime = new DateTime($endDate);
 
-        $sYear = $sTime->format("Y");
-        $sMonth = $sTime->format("m");
-        $sDay = $sTime->format("d");
+        $sTime = $sTime->format("Y-m");
+        //$sMonth = $sTime->format("m");
+        //$sDay = $sTime->format("d");
 
-        $eYear = $eTime->format("Y");
-        $eMonth = $eTime->format("m");
-        $eDay = $eTime->format("d");
-
+        $eTime = $eTime->format("Y-m");
+        //$eMonth = $eTime->format("m");
+        //$eDay = $eTime->format("d");
+        $money = 0;
         foreach ($budgets as $budget) {
-            $budgetDate= new DateTime($budget->date);
-            $budgetYear = $budgetDate->format("Y");
-            $budgetMonth = $budgetDate->format("m");
+            $budgetDate = new DateTime($budget->date);
+            $budgetTime = $budgetDate->format("Y-m");
+            //$budgetMonth = $budgetDate->format("m");
+
+            if ($sTime <= $budgetTime && $eTime >= $budgetTime) {
+                $money += $budget->value;
+            }
 
 
         }
 
 
 
-        return 31;
+        return $money;
     }
 }
