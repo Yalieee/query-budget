@@ -25,8 +25,7 @@ class QueryBudgetTest extends TestCase
     public function setUp()
     {
         $this->stubFindAllBudgets = m::mock(FindAllBudgetsInterface::class);
-        $findAllBudgets = $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn();
-        $this->sut = new QueryBudget($findAllBudgets);
+        $this->sut = new QueryBudget($this->stubFindAllBudgets);
         parent::setUp();
     }
 
