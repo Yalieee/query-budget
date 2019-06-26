@@ -81,6 +81,6 @@ class QueryBudgetTest extends TestCase
             new Budget("2019/01", 31)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(0, $this->sut->query('2020/01/01', '2019/01/31'));®
+        $this->assertEquals(0, $this->sut->query('2020/01/01', '2019/01/31'));
     }
 }
