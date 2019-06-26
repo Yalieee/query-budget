@@ -29,23 +29,13 @@ class QueryBudgetTest extends TestCase
         parent::setUp();
     }
 
-    public function testQueryOneMouth()
+    public function testOneMonth()
     {
         $budget = array(
             new Budget("2019/01", 31)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(100, $this->sut->query('2019/01/01', '2019/01/31'));
-    }
-
-    public function testOneMonth()
-    {
-        $budget = array(
-            new Budget("2019/01", 31),
-            new Budget("2019/02",28)
-        );
-        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(59, $this->sut->query('2019/01/01', '2019/02/28'));
+        $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
     }
 
     public function testOneDay()
@@ -60,9 +50,10 @@ class QueryBudgetTest extends TestCase
     public function testCrossMonth()
     {
         $budget = array(
-            new Budget("2019/01", 31)
+            new Budget("2019/01", 31),
+            new Budget("2019/02",28)
         );
-        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);;
+        $this->assertEquals(59, $this->sut->query('2019/01/01', '2019/02/28'));
     }
 
     public function testHaveNoBudgets()
