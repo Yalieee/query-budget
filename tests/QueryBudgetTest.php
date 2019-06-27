@@ -70,21 +70,21 @@ class QueryBudgetTest extends TestCase
     {
         $budget = array(
             new Budget('2019/01', 31),
-            new Budget('2019/02', 28),
+            new Budget('2019/02', 56),
             new Budget('2019/03', 31)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(61, $this->sut->query('2019/01/01', '2019/03/01'));
+        $this->assertEquals(89, $this->sut->query('2019/01/01', '2019/03/01'));
     }
 
     public function testCrossMonth()
     {
         $budget = array(
             new Budget("2019/01", 31),
-            new Budget("2019/02", 28)
+            new Budget("2019/02", 56)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(46, $this->sut->query('2019/01/11', '2019/02/25'));
+        $this->assertEquals(71, $this->sut->query('2019/01/11', '2019/02/25'));
     }
 
     public function testHaveNoBudgets()
