@@ -74,7 +74,7 @@ class QueryBudgetTest extends TestCase
             new Budget('2019/03', 31)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
-        $this->assertEquals(61, $this->sut->query('2019/01/01', '2019/02/01'));
+        $this->assertEquals(61, $this->sut->query('2019/01/01', '2019/03/01'));
     }
 
     public function testCrossMonth()
