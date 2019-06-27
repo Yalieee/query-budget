@@ -18,11 +18,11 @@ class QueryBudget
     public function query($startDate, $endDate)
     {
         $budgets = $this->findAllBudgets->findAllBudgets();
-        $sTime = new DateTime($startDate);
-        $eTime = new DateTime($endDate);
+        $sTimeObj = new DateTime($startDate);
+        $eTimeObj = new DateTime($endDate);
 
-        $sTime = $sTime->format("Y-m");
-        $eTime = $eTime->format("Y-m");
+        $sTime = $sTimeObj->format("Y-m");
+        $eTime = $eTimeObj->format("Y-m");
 
         $money = 0;
         foreach ($budgets as $budget) {
@@ -32,8 +32,14 @@ class QueryBudget
             $budgetDays = cal_days_in_month(CAL_GREGORIAN,
                 $budgetDate->format("m"),
                 $budgetDate->format("Y"));
-
-            if ($sTime <= $budgetTime && $eTime >= $budgetTime) {
+            $budgetDayValue = floor($budget->value/$budgetDays);
+            if ($budgetTime == $sTime) {
+                $days = $budgetDays - $sTimeObj->format("d") +1;
+                $money += $days * $budgetDayValue;
+            } else if ($budgetTime == $eTime){
+                $days = $eTimeObj->format("d");
+                $money += $days * $budgetDayValue;
+            } else {
                 $money += $budget->value;
             }
         }

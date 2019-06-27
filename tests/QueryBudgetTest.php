@@ -32,7 +32,7 @@ class QueryBudgetTest extends TestCase
     public function testOneMonth()
     {
         $budget = array(
-            new Budget("2019/01", 31)
+            new Budget('2019/01', 31)
         );
         $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
         $this->assertEquals(31, $this->sut->query('2019/01/01', '2019/01/31'));
@@ -47,13 +47,44 @@ class QueryBudgetTest extends TestCase
         $this->assertEquals(1, $this->sut->query('2019/01/01', '2019/01/01'));
     }
 
+    public function testPartOfMonth()
+    {
+        $budget = array(
+            new Budget("2019/01", 31)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(7, $this->sut->query('2019/01/10', '2019/01/16'));
+    }
+
+    public function testOneMonthPlusOneDay()
+    {
+        $budget = array(
+            new Budget('2019/01', 31),
+            new Budget('2019/02', 28)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(32, $this->sut->query('2019/01/01', '2019/02/01'));
+    }
+
+    public function testTwoMonthPlusOneDay()
+    {
+        $budget = array(
+            new Budget('2019/01', 31),
+            new Budget('2019/02', 28),
+            new Budget('2019/03', 31)
+        );
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(61, $this->sut->query('2019/01/01', '2019/02/01'));
+    }
+
     public function testCrossMonth()
     {
         $budget = array(
             new Budget("2019/01", 31),
-            new Budget("2019/02",28)
+            new Budget("2019/02", 28)
         );
-        $this->assertEquals(59, $this->sut->query('2019/01/01', '2019/02/28'));
+        $this->stubFindAllBudgets->shouldReceive('findAllBudgets')->andReturn($budget);
+        $this->assertEquals(46, $this->sut->query('2019/01/11', '2019/02/25'));
     }
 
     public function testHaveNoBudgets()
